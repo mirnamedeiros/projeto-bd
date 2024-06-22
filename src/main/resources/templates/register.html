@@ -1,44 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Register</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <style>
+        .input-group {
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
-<h1>Register</h1>
-<form id="personForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required>
-    <br>
-    <label for="cpf">CPF:</label>
-    <input type="text" id="cpf" required>
-    <br>
-    <label for="username">Username:</label>
-    <input type="text" id="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" required>
-    <br>
-    <label for="role">Role:</label>
-    <select id="role" required>
-        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">Role</option>
-    </select>
-    <br>
-    <label for="birthday">Birthday:</label>
-    <input type="date" id="birthday">
-    <br>
-    <label for="cnh">CNH:</label>
-    <input type="text" id="cnh">
-    <br>
-    <label for="photoUrl">Photo URL:</label>
-    <input type="text" id="photoUrl">
-    <br>
-    <div class="mb-3" id="phone-inputs">
-        <label>Telefone(s)</label>
-    </div>
-    <button type="button" class="btn btn-primary mb-3" id="add-phone">Adicionar Telefone</button>
-    <br>
-    <button type="submit" id="register">Register</button>
-</form>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Register</h1>
+    <form id="personForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="cpf">CPF:</label>
+                <input type="text" class="form-control" id="cpf" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" required>
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">Role</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="birthday">Birthday:</label>
+                <input type="date" class="form-control" id="birthday">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="cnh">CNH:</label>
+                <input type="text" class="form-control" id="cnh">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="photoUrl">Photo URL:</label>
+                <input type="text" class="form-control" id="photoUrl">
+            </div>
+        </div>
+        <div class="form-row justify-content-start">
+            <div class="col-md-12 mb-3" id="phone-inputs">
+                <label>Phone(s)</label>
+                <div class="input-group mb-2 col-sm-4">
+                    <input type="text" name="phoneNumber" class="form-control phone-input" placeholder="Telefone">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-danger remove-phone">Remover</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-end">
+            <button type="button" class="btn btn-primary mr-3" id="add-phone">Add Phone Number</button>
+            <button type="submit" class="btn btn-success" id="register">Register</button>
+        </div>
+    </form>
+</div>
+
 
 <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script>
@@ -85,11 +118,11 @@
         });
 
         $("#add-phone").click(function () {
-            $("#phone-inputs").append('<div class="col-sm-4"><input type="text" name="phoneNumber" class="form-control mb-2 phone-input" placeholder="Telefone"><button type="button" class="btn btn-danger remove-phone">Remover Telefone</button></div>');
+            $("#phone-inputs").append('<div class="input-group mb-2 col-sm-4"><input type="text" name="phoneNumber" class="form-control phone-input" placeholder="Telefone"><div class="input-group-append"><button type="button" class="btn btn-danger remove-phone">Remover</button></div></div>');
         });
 
         $(document).on("click", ".remove-phone", function () {
-            $(this).parent().remove();
+            $(this).closest('.input-group').remove();
         });
     });
 </script>
