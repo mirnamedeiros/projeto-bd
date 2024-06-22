@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <h1>Login</h1>
-<form th:action="@{person/login}" method="post">
+<form id="loginForm">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
     <br>
@@ -14,6 +15,37 @@
     <br>
     <button type="submit">Login</button>
 </form>
-<p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+<p>Don't have an account? <a href="/register">Register here</a></p>
+
+<script>
+    $(document).ready(function() {
+        $('#loginForm').submit(function(event) {
+            event.preventDefault(); // Impede o envio do formulário padrão
+
+            // Captura os dados do formulário
+            var formData = {
+                username: $('#username').val(),
+                password: $('#password').val()
+            };
+
+            // Envia a solicitação POST usando AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/person/login',
+                contentType: 'application/json', // Define o tipo de conteúdo como JSON
+                data: JSON.stringify(formData), // Converte os dados para JSON
+                success: function(response) {
+                    // Ação a ser executada em caso de sucesso
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Ação a ser executada em caso de erro
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
+

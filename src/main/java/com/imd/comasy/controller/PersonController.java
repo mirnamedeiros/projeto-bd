@@ -1,5 +1,6 @@
 package com.imd.comasy.controller;
 
+import com.imd.comasy.dto.AuthenticationDTO;
 import com.imd.comasy.dto.PersonDTO;
 import com.imd.comasy.exceptions.AuthenticationInvalidException;
 import com.imd.comasy.exceptions.EntityAlreadyExistsException;
@@ -29,27 +30,19 @@ public class PersonController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated PersonDTO data, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody @Validated AuthenticationDTO auth, HttpServletResponse response) {
         try {
-            String token = authenticationService.authenticate(data);
-
-            Cookie cookie = new Cookie("jwt", token);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(24 * 60 * 60); // 1 dia de validade
-            response.addCookie(cookie);
-        } catch (InvalidFieldException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+            String result = authenticationService.authenticate(auth);
+            // Autenticação bem-sucedida
+            return ResponseEntity.ok().body(result);
         } catch (AuthenticationInvalidException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("message", e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "An internal server error occurred."));
+            // Usuário não encontrado ou senha incorreta
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Person data) {
+    public ResponseEntity<?> register(@RequestBody PersonDTO data) {
 
         System.out.println("vixe");
 
