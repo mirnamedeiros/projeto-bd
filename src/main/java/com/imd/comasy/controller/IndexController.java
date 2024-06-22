@@ -1,5 +1,6 @@
 package com.imd.comasy.controller;
 
+import com.imd.comasy.dto.PersonDTO;
 import com.imd.comasy.model.Person;
 import com.imd.comasy.utils.EnumRole;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class IndexController {
 
     @GetMapping("/register")
     public ModelAndView register(Model model) {
-        model.addAttribute("person", new Person());
+        model.addAttribute("person", new PersonDTO());
         model.addAttribute("roles", EnumRole.values());
         return new ModelAndView("register");
     }

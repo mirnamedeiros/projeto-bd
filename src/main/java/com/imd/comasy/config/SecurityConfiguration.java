@@ -24,20 +24,20 @@ public class SecurityConfiguration {
     SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, SecurityFilter securityFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.GET, "/webjars/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/register").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/person/login").permitAll()
-                    .requestMatchers("/person/register").permitAll()
-                    .anyRequest().authenticated()
-            )
-            .build();
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/webjars/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/person/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/person/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/register").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .build();
     }
 
     @Bean

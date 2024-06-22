@@ -38,7 +38,7 @@ public class AuthenticationService {
         }
     }
 
-    public void register(Person data) throws EntityAlreadyExistsException {
+    public void register(PersonDTO data) throws EntityAlreadyExistsException {
         if (personService.findByUsername(data.getUsername()) != null) {
             throw new EntityAlreadyExistsException();
         }
