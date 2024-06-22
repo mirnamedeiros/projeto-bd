@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Resident</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h2>Create New Resident</h2>
+    <form id="residentForm">
+        <div class="form-group">
+            <label for="personCpf">Person CPF</label>
+            <select class="form-control" id="personCpf" name="personCpf">
+                <option value="">Select Person CPF</option>
+                <option th:each="person : ${persons}" th:value="${person.cpf}" th:text="${person.cpf + ' - ' + person.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="holderCpf">Holder CPF</label>
+            <select class="form-control" id="holderCpf" name="holderCpf">
+                <option value="">Select Holder CPF</option>
+                <option th:each="holder : ${persons}" th:value="${holder.cpf}" th:text="${holder.cpf + ' - ' + holder.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="apartmentNumber">Apartment Number</label>
+            <input type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Enter apartment number" required>
+        </div>
+        <div class="form-group">
+            <label for="blockNumber">Block Number</label>
+            <input type="text" class="form-control" id="blockNumber" name="blockNumber" placeholder="Enter block number" required>
+        </div>
+        <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("#submitBtn").click(function() {
+            var resident = {
+                personCpf: $("#personCpf").val(),
+                holderCpf: $("#holderCpf").val(),
+                apartmentNumber: $("#apartmentNumber").val(),
+                blockNumber: $("#blockNumber").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/resident",
+                data: JSON.stringify(resident),
+                dataType: 'json',
+                success: function(result) {
+                    console.log(result);
+                    // TODO adicionar alert
+                },
+                error: function(e) {
+                    console.log("Erro: ", e);
+                    // TODO adicionar alert
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -34,15 +34,6 @@ public class PersonService {
         personDAO.delete(cpf);
     }
 
-//    @Override
-//    public Person loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Person person = personDAO.findByUsername(username);
-//        if (person == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return new Person(person);
-//    }
-
     public Person findByUsername(String username) {
         return personDAO.findByUsername(username);
     }

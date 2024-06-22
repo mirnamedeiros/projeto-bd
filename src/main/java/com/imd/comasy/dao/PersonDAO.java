@@ -152,15 +152,12 @@ public class PersonDAO {
         try {
             conectar();
             String sql = "INSERT INTO phone_numbers (person_cpf, phone_number) VALUES (?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql); // Preparar a declaração SQL
+            PreparedStatement statement = connection.prepareStatement(sql);
 
-            // Iterar sobre os números de telefone e inseri-los um por um
             for (String phoneNumber : person.getPhoneNumber()) {
-                // Definir os valores dos parâmetros
-                statement.setString(1, person.getCpf()); // Definir o CPF da pessoa
-                statement.setString(2, phoneNumber); // Definir o número de telefone
+                statement.setString(1, person.getCpf());
+                statement.setString(2, phoneNumber);
 
-                // Executar a declaração preparada
                 statement.executeUpdate();
             }
         } catch (SQLException | ClassNotFoundException e) {
