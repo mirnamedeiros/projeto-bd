@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Register</title>
+</head>
+<body>
+<h1>Register</h1>
+<form th:action="@{/person/register}" th:object="${person}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+    <br>
+    <label for="cpf">CPF:</label>
+    <input type="text" id="cpf" th:field="*{cpf}" required>
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="*{username}" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required>
+    <br>
+    <label for="role">Role:</label>
+    <select id="role" th:field="*{role}" required>
+        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">Role</option>
+    </select>
+    <br>
+    <label for="birthday">Birthday:</label>
+    <input type="date" id="birthday" th:field="*{birthday}">
+    <br>
+    <label for="cnh">CNH:</label>
+    <input type="text" id="cnh" th:field="*{cnh}">
+    <br>
+    <label for="photoUrl">Photo URL:</label>
+    <input type="text" id="photoUrl" th:field="*{photoUrl}">
+    <br>
+    <label for="phoneNumber">Phone Numbers:</label>
+    <input type="text" id="phoneNumber" th:field="*{phoneNumber}">
+    <br>
+    <button type="submit">Register</button>
+</form>
+
+<!--<script>-->
+<!--    async function submitForm(event) {-->
+<!--        event.preventDefault();-->
+<!--        const form = event.target;-->
+<!--        const formData = new FormData(form);-->
+
+<!--        const data = {-->
+<!--            name: formData.get('name'),-->
+<!--            cpf: formData.get('cpf'),-->
+<!--            username: formData.get('username'),-->
+<!--            password: formData.get('password'),-->
+<!--            role: formData.get('role'),-->
+<!--            birthday: formData.get('birthday'),-->
+<!--            cnh: formData.get('cnh'),-->
+<!--            photoUrl: formData.get('photoUrl'),-->
+<!--            phoneNumber: formData.get('phoneNumber')-->
+<!--        };-->
+
+<!--        console.log('&ndash;&gt;'+JSON.stringify(data))-->
+<!--        try {-->
+<!--            const response = await fetch('person/register', {-->
+<!--                method: 'POST',-->
+<!--                headers: {-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                },-->
+<!--                body: JSON.stringify(data)-->
+<!--            });-->
+
+<!--            if (response.ok) {-->
+<!--                window.location.href = '/login';-->
+<!--            } else {-->
+<!--                const errorData = await response.json();-->
+<!--                console.error('Registration failed:', errorData);-->
+<!--            }-->
+<!--        } catch (error) {-->
+<!--            console.error('Error:', error);-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>
