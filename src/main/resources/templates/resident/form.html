@@ -4,43 +4,54 @@
     <meta charset="UTF-8">
     <title>Create Resident</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="text-center">Create New Resident</h2>
-    <form id="residentForm" class="mt-4">
-        <div class="form-row justify-content-center">
-            <div class="form-group col-md-4">
-                <label for="personCpf">Person CPF</label>
-                <select class="form-control" id="personCpf" name="personCpf">
-                    <option value="">Select Person CPF</option>
-                    <option th:each="person : ${persons}" th:value="${person.cpf}" th:text="${person.cpf + ' - ' + person.name}"></option>
-                </select>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="holderCpf">Holder CPF</label>
-                <select class="form-control" id="holderCpf" name="holderCpf">
-                    <option value="">Select Holder CPF</option>
-                    <option th:each="holder : ${persons}" th:value="${holder.cpf}" th:text="${holder.cpf + ' - ' + holder.name}"></option>
-                </select>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Main Content-->
+        <div class="main-content mt-5 ml-5">
+            <h2>Create New Resident</h2>
+            <form id="residentForm" class="mt-5">
+                <div class="form-row justify-content-center mb-4">
+                    <div class="form-group col-md-6">
+                        <label for="personCpf">Person CPF</label>
+                        <select class="form-control" id="personCpf" name="personCpf">
+                            <option value="">Select Person CPF</option>
+                            <option th:each="person : ${persons}" th:value="${person.cpf}" th:text="${person.cpf + ' - ' + person.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 mb-4">
+                        <label for="holderCpf">Holder CPF</label>
+                        <select class="form-control" id="holderCpf" name="holderCpf">
+                            <option value="">Select Holder CPF</option>
+                            <option th:each="holder : ${persons}" th:value="${holder.cpf}" th:text="${holder.cpf + ' - ' + holder.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="form-group col-md-6">
+                        <label for="apartmentNumber">Apartment Number</label>
+                        <input type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Enter apartment number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="blockNumber">Block Number</label>
+                        <input type="text" class="form-control" id="blockNumber" name="blockNumber" placeholder="Enter block number" required>
+                    </div>
+                </div>
+                <div class="form-row mt-5">
+                    <div class="form-group col-md-12">
+                        <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-row justify-content-center">
-            <div class="form-group col-md-4">
-                <label for="apartmentNumber">Apartment Number</label>
-                <input type="text" class="form-control" id="apartmentNumber" name="apartmentNumber" placeholder="Enter apartment number" required>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="blockNumber">Block Number</label>
-                <input type="text" class="form-control" id="blockNumber" name="blockNumber" placeholder="Enter block number" required>
-            </div>
-        </div>
-        <div class="form-row justify-content-center">
-            <div class="col-md-4">
-                <button type="button" id="submitBtn" class="btn btn-primary btn-block">Submit</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>

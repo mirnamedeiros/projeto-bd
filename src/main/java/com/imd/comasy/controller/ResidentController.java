@@ -40,10 +40,10 @@ public class ResidentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addResident(@RequestBody ResidentDTO resident) {
+    public ResponseEntity<?> addResident(@RequestBody ResidentDTO resident) {
         try {
             residentService.addResident(resident);
-            return new ResponseEntity<>("Resident added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Resident added successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

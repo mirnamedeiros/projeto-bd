@@ -2,6 +2,7 @@ package com.imd.comasy.service;
 
 import com.imd.comasy.dao.PersonDAO;
 import com.imd.comasy.model.Person;
+import com.imd.comasy.utils.EnumRole;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -16,6 +17,14 @@ public class PersonService {
 
     public List<Person> getAllPersons() {
         return personDAO.findAll();
+    }
+
+    public List<Person> getAllDoormen() {
+        return personDAO.findAllByRole(EnumRole.DOORMAN);
+    }
+
+    public List<Person> getAllResidents() {
+        return personDAO.findAllByRole(EnumRole.RESIDENT);
     }
 
     public Person getPersonByCpf(String cpf) {

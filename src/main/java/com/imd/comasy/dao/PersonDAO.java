@@ -54,6 +54,25 @@ public class PersonDAO {
         return persons;
     }
 
+    public List<Person> findAllByRole(EnumRole role) {
+        List<Person> persons = new ArrayList<>();
+        try {
+            conectar();
+            String sql = "SELECT * FROM person WHERE role = " + retornaValorStringBD(role.name());
+            ResultSet rs = comando.executeQuery(sql);
+            while (rs.next()) {
+                Person person = buildPerson(rs);
+                loadPhoneNumbers(person);
+                persons.add(person);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            fechar();
+        }
+        return persons;
+    }
+
     public Person findById(String cpf) {
         Person person = null;
         try {

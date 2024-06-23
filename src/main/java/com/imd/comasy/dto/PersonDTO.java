@@ -20,4 +20,7 @@ public class PersonDTO {
     String username;
     String password;
     EnumRole role;
+    Integer apartmentNumber;
+    Integer blockNumber;
+    String holderCpf;
 }

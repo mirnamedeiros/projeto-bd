@@ -1,0 +1,23 @@
+.sidebar {
+    background-color: #343a40;
+    height: 100vh;
+    color: white;
+}
+.sidebar .nav-link {
+    color: white;
+}
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+.sidebar .nav-link .material-icons {
+    font-size: 36px;
+}
+.nav-pills .nav-item {
+    width: 100%;
+}
+.nav-pills .nav-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}

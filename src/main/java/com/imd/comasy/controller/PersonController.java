@@ -1,12 +1,17 @@
 package com.imd.comasy.controller;
 
 import com.imd.comasy.dto.AuthenticationDTO;
+import com.imd.comasy.dto.DoormanDTO;
 import com.imd.comasy.dto.PersonDTO;
+import com.imd.comasy.dto.ResidentDTO;
 import com.imd.comasy.exceptions.AuthenticationInvalidException;
 import com.imd.comasy.exceptions.EntityAlreadyExistsException;
 import com.imd.comasy.model.Person;
 import com.imd.comasy.service.AuthenticationService;
+import com.imd.comasy.service.DoormanService;
 import com.imd.comasy.service.PersonService;
+import com.imd.comasy.service.ResidentService;
+import com.imd.comasy.utils.EnumRole;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +30,12 @@ public class PersonController {
     private PersonService personService;
 
     @Autowired
+    private DoormanService doormanService;
+
+    @Autowired
+    private ResidentService residentService;
+
+    @Autowired
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
@@ -40,12 +51,15 @@ public class PersonController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody PersonDTO data) {
-
-        System.out.println("vixe");
-
+    public ResponseEntity<?> register(@RequestBody PersonDTO person) {
         try {
-            authenticationService.register(data);
+            authenticationService.register(person);
+            if (EnumRole.DOORMAN.equals(person.getRole())) {
+                doormanService.save(new DoormanDTO(person.getCpf()));
+            } else if (EnumRole.RESIDENT.equals(person.getRole())) {
+                ResidentDTO residentDTO = new ResidentDTO(person.getCpf(), person.getHolderCpf(), person.getApartmentNumber(), person.getBlockNumber());
+                residentService.addResident(residentDTO);
+            }
         } catch (EntityAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("message", e.getMessage()));
         }

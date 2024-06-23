@@ -54,6 +54,23 @@
                 <input type="text" class="form-control" id="photoUrl">
             </div>
         </div>
+        <div class="form-row" id="resident-fields" style="display: none;">
+            <div class="form-group col-md-6">
+                <label for="apartmentNumber">Apartment Number:</label>
+                <input type="text" class="form-control" id="apartmentNumber">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="blockNumber">Block Number:</label>
+                <input type="text" class="form-control" id="blockNumber">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="holderCpf">Holder CPF</label>
+                <select class="form-control" id="holderCpf" name="holderCpf">
+                    <option value="">Select Holder CPF</option>
+                    <option th:each="holder : ${persons}" th:value="${holder.cpf}" th:text="${holder.cpf + ' - ' + holder.name}"></option>
+                </select>
+            </div>
+        </div>
         <div class="form-row justify-content-start">
             <div class="col-md-12 mb-3" id="phone-inputs">
                 <label>Phone(s)</label>
@@ -76,6 +93,14 @@
 <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script>
     $(document).ready(function() {
+        $('#role').change(function() {
+            if ($(this).val() === 'RESIDENT') {
+                $('#resident-fields').show();
+            } else {
+                $('#resident-fields').hide();
+            }
+        });
+
         $('#register').click(function(e) {
             e.preventDefault();
             var form = $('#personForm')[0];
@@ -91,7 +116,16 @@
                 username: $('#username').val(),
                 password: $('#password').val(),
                 role: $('#role').val(),
+                apartmentNumber: null,
+                blockNumber: null,
+                holderCpf: null,
             };
+
+            if (person.role === 'RESIDENT') {
+                person.holderCpf = $("#holderCpf").val();
+                person.apartmentNumber = $('#apartmentNumber').val();
+                person.blockNumber = $('#blockNumber').val();
+            }
 
             formData.forEach(function (value, key) {
                 if (key === 'phoneNumber') {
@@ -112,7 +146,7 @@
                     if (response.responseJSON && response.responseJSON.message) {
                         errorMessage = response.responseJSON.message;
                     }
-                    console.log(errorMessage)
+                    console.log(errorMessage);
                 }
             });
         });
