@@ -34,4 +34,9 @@ public class IndexController {
     public ModelAndView home() {
         return new ModelAndView("home");
     }
+
+    @GetMapping("/menu")
+    public ModelAndView visitMenu() {
+        return new ModelAndView("menu");
+    }
 }

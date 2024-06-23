@@ -8,6 +8,7 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
     <!-- Google Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
     <style>
         body, html {
             height: 100%;
@@ -34,32 +35,29 @@
 <body>
 <div class="container-fluid">
     <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
         <!-- Main Content -->
         <div class="col-sm p-3 min-vh-100">
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
-                        <a th:href="@{delivery/form}" class="btn btn-primary btn-wide">
-                            <i class="material-icons">local_shipping</i>
-                            Deliveries
+                        <a th:href="@{visitor/form}" class="btn btn-primary btn-wide">
+                            <i class="material-icons">person_add</i>
+                            Add Visitor
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
-                        <a th:href="@{/menu}" class="btn btn-primary btn-wide">
-                            <i class="material-icons">perm_contact_calendar</i>
-                            Visits
+                        <a th:href="@{/visit/form}" class="btn btn-primary btn-wide">
+                            <i class="material-icons">account_box</i>
+                            Add Visit
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
-                        <a th:href="@{resident/form}" class="btn btn-primary btn-wide">
-                            <i class="material-icons">group</i>
-                            Residents
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <a href="#" class="btn btn-primary btn-wide">
-                            <i class="material-icons">dashboard</i>
-                            Mural
+                        <a th:href="@{/visit/list}" class="btn btn-primary btn-wide">
+                            <i class="material-icons">list</i>
+                            View Visits
                         </a>
                     </div>
                 </div>

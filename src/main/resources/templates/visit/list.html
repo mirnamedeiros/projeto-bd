@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Visit List</title>
+    <!-- Bootstrap CSS -->
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Main Content-->
+        <div class="main-content mt-5 ml-5">
+            <h2 class="text-center">Visit List</h2>
+            <div th:if="${visits.isEmpty()}">
+                <p class="text-center">No visits registered.</p>
+            </div>
+            <table class="table table-bordered mt-5" th:if="${not visits.isEmpty()}">
+                <thead>
+                <tr>
+                    <th>Doorman CPF</th>
+                    <th>Visitor Code</th>
+                    <th>Resident CPF</th>
+                    <th>Status</th>
+                    <th>Arrival Date</th>
+                    <th>Departure Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="visit : ${visits}">
+                    <td th:text="${visit.doormanCpf}"></td>
+                    <td th:text="${visit.visitorCode}"></td>
+                    <td th:text="${visit.residentCpf}"></td>
+                    <td th:text="${visit.status}"></td>
+                    <td th:text="${#dates.format(visit.arrivalDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(visit.departureDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td>
+                        <button class="btn btn-success"
+                                th:data-doorman-cpf="${visit.doormanCpf}"
+                                th:data-visitor-code="${visit.visitorCode}"
+                                th:data-resident-cpf="${visit.residentCpf}"
+                                onclick="updateStatus(this, 'APPROVED')"
+                                th:if="${visit.arrivalDate == null}">Approve</button>
+                        <button class="btn btn-danger"
+                                th:data-doorman-cpf="${visit.doormanCpf}"
+                                th:data-visitor-code="${visit.visitorCode}"
+                                th:data-resident-cpf="${visit.residentCpf}"
+                                onclick="updateStatus(this, 'DENIED')"
+                                th:if="${visit.arrivalDate == null}">Deny</button>
+                        <button class="btn btn-primary"
+                                th:data-doorman-cpf="${visit.doormanCpf}"
+                                th:data-visitor-code="${visit.visitorCode}"
+                                th:data-resident-cpf="${visit.residentCpf}"
+                                th:data-arrival-date="${visit.arrivalDate}"
+                                onclick="confirmExit(this)"
+                                th:if="${visit.arrivalDate != null && visit.departureDate == null}">Confirm Exit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+<script>
+    function updateStatus(button, status) {
+        const doormanCpf = $(button).data('doorman-cpf');
+        const visitorCode = $(button).data('visitor-code');
+        const residentCpf = $(button).data('resident-cpf');
+
+        let arrivalDate = null;
+        if (status === 'APPROVED') {
+            arrivalDate = new Date().toISOString();
+        }
+
+        const visit = {
+            doormanCpf: doormanCpf,
+            visitorCode: parseInt(visitorCode),
+            residentCpf: residentCpf,
+            status: status,
+            arrivalDate: arrivalDate,
+            departureDate: null,
+        };
+
+        console.log(JSON.stringify(visit))
+
+        $.ajax({
+            type: 'PUT',
+            contentType: 'application/json',
+            url: `/visit/${doormanCpf}/${visitorCode}/${residentCpf}`,
+            data: JSON.stringify(visit),
+            success: function(result) {
+                location.reload();
+            },
+            error: function(e) {
+                console.log("Error: ", e);
+            }
+        });
+    }
+
+    function confirmExit(button) {
+        const doormanCpf = $(button).data('doorman-cpf');
+        const visitorCode = $(button).data('visitor-code');
+        const residentCpf = $(button).data('resident-cpf');
+        const arrivalDate = $(button).data('arrival-date');
+
+        const visit = {
+            doormanCpf: doormanCpf,
+            visitorCode: parseInt(visitorCode),
+            residentCpf: residentCpf,
+            status: 'CHECKOUT',
+            arrivalDate: new Date(arrivalDate).toISOString(),
+            departureDate: new Date().toISOString()
+        };
+
+        console.log(JSON.stringify(visit))
+
+        $.ajax({
+            type: 'PUT',
+            contentType: 'application/json',
+            url: `/visit/${doormanCpf}/${visitorCode}/${residentCpf}`,
+            data: JSON.stringify(visit),
+            success: function(result) {
+                location.reload();
+            },
+            error: function(e) {
+                console.log("Error: ", e);
+            }
+        });
+    }
+</script>
+</body>
+</html>

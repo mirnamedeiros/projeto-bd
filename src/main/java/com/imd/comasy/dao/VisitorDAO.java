@@ -129,6 +129,7 @@ public class VisitorDAO {
 
     private VisitorDTO buildVisitor(ResultSet rs) throws SQLException {
         VisitorDTO visitor = new VisitorDTO();
+        visitor.setCode(rs.getInt("code"));
         visitor.setName(rs.getString("name"));
         visitor.setType(rs.getString("type"));
         return visitor;
