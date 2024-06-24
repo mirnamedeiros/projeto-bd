@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Condominium</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Main Content-->
+        <div class="main-content mt-5 ml-5">
+            <h2>Create New Condominium</h2>
+            <form id="condominiumForm" class="mt-5">
+                <div class="form-row justify-content-center mb-4">
+                    <div class="form-group col-md-6">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="Enter CNPJ" required>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center mb-4">
+                    <div class="form-group col-md-6">
+                        <label for="neighborhood">Neighborhood</label>
+                        <input type="text" class="form-control" id="neighborhood" name="neighborhood" placeholder="Enter neighborhood" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="street">Street</label>
+                        <input type="text" class="form-control" id="street" name="street" placeholder="Enter street" required>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center mb-4">
+                    <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required>
+                    </div>
+                </div>
+                <div class="form-row justify-content-start mb-4">
+                    <div class="form-group col-md-6">
+                        <label for="cep">CEP</label>
+                        <input type="text" class="form-control" id="cep" name="cep" placeholder="Enter CEP" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone" required>
+                    </div>
+                </div>
+                <div class="form-row mt-5">
+                    <div class="form-group col-md-12">
+                        <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("#submitBtn").click(function() {
+            var condominium = {
+                name: $("#name").val(),
+                cnpj: $("#cnpj").val(),
+                cep: $("#cep").val(),
+                neighborhood: $("#neighborhood").val(),
+                street: $("#street").val(),
+                city: $("#city").val(),
+                state: $("#state").val(),
+                phone: $("#phone").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/condominium",
+                data: JSON.stringify(condominium),
+                success: function(result) {
+                    console.log(result);
+                    console.log("Condominium created successfully!");
+                },
+                error: function(e) {
+                    console.log("Error: ", e);
+                    console.log("An error occurred while creating the condominium.");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
