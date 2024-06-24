@@ -36,7 +36,7 @@ public class CondominiumController {
     }
 
     @GetMapping("/list")
-    public ModelAndView visitList() {
+    public ModelAndView condominiumList() {
         ModelAndView modelAndView = new ModelAndView("condominium/list");
         modelAndView.addObject("condominiums", condominiumService.getAllCondominiums());
         return modelAndView;
