@@ -4,3 +4,5 @@ CREATE TABLE resident (
     holder_cpf VARCHAR(14) REFERENCES holder(holder_cpf) ON DELETE CASCADE,
     PRIMARY KEY (person_cpf, holder_cpf)
 );
+
+--ALTER TABLE resident ADD CONSTRAINT unique_person_cpf UNIQUE (person_cpf);

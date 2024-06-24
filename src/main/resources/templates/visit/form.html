@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Visit</title>
+    <!-- Bootstrap CSS -->
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Main Content-->
+        <div class="main-content mt-5 ml-5">
+            <h2 class="text-center">Create Visit</h2>
+            <form id="visitForm" class="mt-5">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="doormanCpf">Doorman:</label>
+                        <select class="form-control" id="doormanCpf" name="doormanCpf">
+                            <option value="">Select Doorman</option>
+                            <option th:each="doorman : ${doormen}" th:value="${doorman.cpf}" th:text="${doorman.cpf + ' - ' + doorman.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="visitorCode">Visitor:</label>
+                        <select class="form-control" id="visitorCode" name="visitorCode">
+                            <option value="">Select Visitor</option>
+                            <option th:each="visitor : ${visitors}" th:value="${visitor.code}" th:text="${visitor.code + ' - ' + visitor.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="residentCpf">Resident:</label>
+                        <select class="form-control" id="residentCpf" name="residentCpf">
+                            <option value="">Select Resident</option>
+                            <option th:each="resident : ${residents}" th:value="${resident.cpf}" th:text="${resident.cpf + ' - ' + resident.name}"></option>
+                        </select>
+                    </div>
+<!--                    <div class="form-group col-md-6">-->
+<!--                        <label for="status">Status:</label>-->
+<!--                        <select class="form-control" id="status" name="status">-->
+<!--                            <option value="">Select Status</option>-->
+<!--                            <option th:each="status : ${statuses}" th:value="${status.role}" th:text="${status.toUpperCase()}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+                </div>
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-6">-->
+<!--                        <label for="arrivalDate">Arrival Date:</label>-->
+<!--                        <input type="datetime-local" class="form-control" id="arrivalDate" name="arrivalDate">-->
+<!--                    </div>-->
+<!--                    <div class="form-group col-md-6">-->
+<!--                        <label for="departureDate">Departure Date:</label>-->
+<!--                        <input type="datetime-local" class="form-control" id="departureDate" name="departureDate">-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="form-group col-md-12 mt-5">
+                    <button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $("#submitBtn").click(function() {
+            var visit = {
+                doormanCpf: $("#doormanCpf").val(),
+                visitorCode: parseInt($("#visitorCode").val()),
+                residentCpf: $("#residentCpf").val(),
+                status: "PENDING",
+                arrivalDate: null,
+                departureDate: null
+            };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/visit",
+                data: JSON.stringify(visit),
+                success: function(result) {
+                    window.location.href = '/visit/list';
+                },
+                error: function(e) {
+                    console.log("Error: ", e);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
