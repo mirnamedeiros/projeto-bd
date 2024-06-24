@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Suggestion List</title>
+    <!-- Bootstrap CSS -->
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}"/>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Main Content-->
+        <div class="main-content mt-5 ml-5">
+            <h2 class="text-center">Suggestion List</h2>
+            <div th:if="${suggestions.isEmpty()}">
+                <p class="text-center">No suggestions registered.</p>
+            </div>
+            <table class="table table-bordered mt-5" th:if="${not suggestions.isEmpty()}">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Message</th>
+                    <th>Resident CPF</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="suggestion : ${suggestions}">
+                    <td th:text="${suggestion.id}"></td>
+                    <td th:text="${suggestion.type}"></td>
+                    <td th:text="${suggestion.message}"></td>
+                    <td th:text="${suggestion.residentId}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-right mt-5">
+                <a th:href="@{/suggestion/form}" class="btn btn-primary">Add New Suggestion</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
