@@ -35,6 +35,13 @@ public class CondominiumController {
         }
     }
 
+    @GetMapping("/list")
+    public ModelAndView visitList() {
+        ModelAndView modelAndView = new ModelAndView("condominium/list");
+        modelAndView.addObject("condominiums", condominiumService.getAllCondominiums());
+        return modelAndView;
+    }
+
     @GetMapping("/form")
     public ModelAndView condominiumForm() {
         return new ModelAndView("condominium/form");

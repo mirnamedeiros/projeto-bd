@@ -88,9 +88,8 @@
                 contentType: "application/json",
                 url: "/condominium",
                 data: JSON.stringify(condominium),
-                success: function(result) {
-                    console.log(result);
-                    console.log("Condominium created successfully!");
+                success: function() {
+                    window.location.href = '/condominium/list';
                 },
                 error: function(e) {
                     console.log("Error: ", e);
