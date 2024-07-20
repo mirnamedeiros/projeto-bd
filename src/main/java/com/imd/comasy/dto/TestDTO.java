@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestDTO {
-    private int code;
-    private String name;
-    private String type;
+    private int testeId;
+    private String testName;
 }
