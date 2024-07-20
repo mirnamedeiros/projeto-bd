@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TestDTO {
     private int code;
-    private String name;
+    private String name2;
     private String type;
 }
