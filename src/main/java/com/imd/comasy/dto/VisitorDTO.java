@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class VisitorDTO {
     private int code;
+    
     private String name;
+    
     private String type;
 }
