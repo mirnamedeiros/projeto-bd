@@ -17,6 +17,12 @@
 		<java.version>17</java.version>
 		<sonar.organization>mirnamedeiros</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>
+		    ../app-it/target/site/jacoco-aggregate/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.exclusions>
+		    **/MenuController.java, **/dto/**/*, **/model/**/*
+		</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -74,6 +80,20 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<executions>
+			    <execution>
+				<id>report-aggregate</id>
+				<phase>verify</phase>
+				<goals>
+				    <goal>report-aggregate</goal>
+				</goals>
+			    </execution>
+			</executions>
+		    </plugin>
 		</plugins>
 	</build>
 
